@@ -21,10 +21,15 @@ class HashTable:
     """
 
     def __init__(self, capacity):
-        # Your code here
-
+        self.capacity = capacity
+        self.entries = 0
+        if capacity >= MIN_CAPACITY:
+            self.table = [None] * capacity
+        else:
+            self.table = [None] * MIN_CAPACITY
 
     def get_num_slots(self):
+        return len(self.table)
         """
         Return the length of the list you're using to hold the hash
         table data. (Not the number of items stored in the hash table,
@@ -38,6 +43,7 @@ class HashTable:
 
 
     def get_load_factor(self):
+        return self.entries / len(self.table)
         """
         Return the load factor for this hash table.
 
@@ -62,8 +68,10 @@ class HashTable:
 
         Implement this, and/or FNV-1.
         """
-        # Your code here
-
+        hash = 5381
+        for c in key:
+            hash = (hash * 33) + ord(c)
+        return hash
 
     def hash_index(self, key):
         """
@@ -81,7 +89,18 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        item = HashTableEntry(key, value)
+        if self.entries < self.capacity:
+            self.entries += 1
+            key = self.hash_index(key)
+            pos = self.table[key]
+            if pos:
+                while pos.next:
+                    pos = pos.next
+                pos.next = item
+            else:
+                self.table[key] = item
+            
 
 
     def delete(self, key):
@@ -92,7 +111,7 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        self.table.pop(key)
 
 
     def get(self, key):
@@ -103,7 +122,8 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        
+        return self.table[self.hash_index(key)].value
 
 
     def resize(self, new_capacity):
@@ -113,7 +133,11 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
+        # new_table = [None] * new_capacity
+        # MIN_CAPACITY = new_capacity
+        # for i in self.table:
+        #     if i:
+        #         self.table
 
 
 
@@ -134,7 +158,6 @@ if __name__ == "__main__":
     ht.put("line_12", "And stood awhile in thought.")
 
     print("")
-
     # Test storing beyond capacity
     for i in range(1, 13):
         print(ht.get(f"line_{i}"))
