@@ -117,15 +117,18 @@ class HashTable:
         """
         index = self.hash_index(key)
         position = self.table[index]
-        while self.table[index].key != key and position.next != None:
-            position = position.next 
         if position == None:
             print('Key not found')
         else:
+            while self.table[index].key != key and position.next != None:
+                position = position.next 
+        
+            self.entries -= 1
             if self.table[index].next:
-                self.table[index] = position.next
+                self.table[index] = position.next  
             else: 
                 self.table[index] = None
+        
             
 
 
@@ -168,7 +171,6 @@ class HashTable:
                     pos = pos.next
             else:
                 self.put(old_table[i].key, old_table[i].value)
-        
 
 
 
