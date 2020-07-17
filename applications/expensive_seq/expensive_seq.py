@@ -1,5 +1,5 @@
 # Your code here
-
+whitelist = set("abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ'")
 cache = {}
 def expensive_seq(x, y, z):
     key = f"{x},{y},{z}"

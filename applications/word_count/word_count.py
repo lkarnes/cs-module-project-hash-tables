@@ -1,11 +1,9 @@
-whitelist = set("abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ'\r\n\t")
+whitelist = set("abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ'")
 def word_count(s):
     cache = {}
-    print(s)
-    s.replace("\r",' ')
-    s.replace("\t",' ')
-    s.replace("\n",' ')
-    print(s)
+    s = s.replace('\n', ' ')
+    s = s.replace('\t', ' ')
+    s = s.replace('\r', ' ')
     s = ''.join(filter(whitelist.__contains__, s))
     if s != '':
         arr = s.split(" ")
@@ -15,11 +13,10 @@ def word_count(s):
                     cache[i.lower()] += 1
                 else:
                     cache[i.lower()] = 1
-    print(cache, s)
     return cache
 
 if __name__ == "__main__":
     print(word_count(""))
     print(word_count("Hello"))
     print(word_count('Hello, my cat. And my cat doesn\'t say "hello" back.'))
-    print(word_count('This is a test of the emergency broadcast network. This is only a test.'))
+    print(word_count('This is\na test of the emergency broadcast network. This is only a test.'))
