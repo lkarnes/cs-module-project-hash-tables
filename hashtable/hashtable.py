@@ -92,15 +92,18 @@ class HashTable:
         """
         
         item = HashTableEntry(key, value)
-        key = self.hash_index(key)
+        index = self.hash_index(key)
         self.entries += 1
-        if self.table[key]:
-            position = self.table[key]
-            while position.next:
+        if self.table[index]:
+            position = self.table[index]
+            while position.next and position.key != key:
                 position = position.next
-            position.next = item
+            if position.key == key:
+                position.value = value
+            else:
+                position.next = item
         else:
-            self.table[key] = item
+            self.table[index] = item
             
 
 
@@ -112,7 +115,21 @@ class HashTable:
 
         Implement this.
         """
-        self.table.pop(key)
+        index = self.hash_index(key)
+        position = self.table[index]
+        if position == None:
+            print('Key not found')
+        else:
+            while self.table[index].key != key and position.next != None:
+                position = position.next 
+        
+            self.entries -= 1
+            if self.table[index].next:
+                self.table[index] = position.next  
+            else: 
+                self.table[index] = None
+        
+            
 
 
     def get(self, key):
@@ -123,10 +140,16 @@ class HashTable:
 
         Implement this.
         """
-        pos = self.table[self.hash_index(key)]
-        while key != pos.key and pos.next:
-            pos = pos.next
-        return pos.value
+        if self.table[self.hash_index(key)] == None:
+            return None
+        else:
+            pos = self.table[self.hash_index(key)]
+            while key != pos.key and pos.next:
+                pos = pos.next
+            if pos.key == key:
+                return pos.value
+            else:
+                return None
 
 
     def resize(self, new_capacity):
@@ -143,12 +166,11 @@ class HashTable:
         for i in range(len(old_table)):
             if old_table[i].next:
                 pos = old_table[i]
-                while pos.next:
+                while pos != None:
                     self.put(pos.key, pos.value)
                     pos = pos.next
             else:
                 self.put(old_table[i].key, old_table[i].value)
-        
 
 
 
@@ -170,10 +192,12 @@ if __name__ == "__main__":
 
     # print(ht.get("line_5"), 'line5')
     # Test storing beyond capacity
-    for i in range(1, 13):
-        print(ht.get(f"line_{i}"))
+    # for i in range(1, 13):
+    #     print(ht.get(f"line_{i}"))
 
     # Test resizing
+    for i in range(1, 13):
+        print(ht.get(f"line_{i}"))
     old_capacity = ht.get_num_slots()
     ht.resize(ht.capacity * 2)
     new_capacity = ht.get_num_slots()
@@ -183,5 +207,4 @@ if __name__ == "__main__":
     # Test if data intact after resizing
     for i in range(1, 13):
         print(ht.get(f"line_{i}"))
-
     print(ht.get(f"line_12"))
