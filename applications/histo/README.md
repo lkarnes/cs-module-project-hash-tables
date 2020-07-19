@@ -71,7 +71,7 @@ Items: `.vgrzf()` zrgubq ba n qvpgvbanel zvtug or hfrshy.
 
 Sorting: vg'f cbffvoyr sbe `.fbeg()` gb fbeg ba zhygvcyr xrlf ng bapr.
 
-Sorting: artngvirf zvtug uryc jurer `erirefr` jba'g.
+Sorting:    
 
 Printing: lbh pna cevag n inevnoyr svryq jvqgu va na s-fgevat jvgu
 arfgrq oenprf, yvxr fb `{k:{l}}`
